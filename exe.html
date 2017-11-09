@@ -4,18 +4,42 @@ function pow(x,y){
 	return Math.pow(x,y)
 }
 function step(x){ //Step an ExE.
-	if(x[0]!="E"){
+	if(x.search("E")==-1){
 		return x
 	}
-	var info={}
-	for(var i=0;i<x.length;i++){
-		//TODO add stuff to deal with separators here
+	var expr=0
+	var rep=0
+	var sep=0
+	var rule=1
+	var length=x.length
+	//expr is the start of the current ExE expression
+	//rep is the end of the replicated part of the expression for rule 2
+	//sep is the location of the separator used in rule 2
+	//rule is the rule (1 is E, 2 is #)
+	for(var i=0;i<length;i++){
+		if(x[i]=="E"){
+			expr=rep=sep=i
+			rule=1
+		}else if(x[i]=="#"){
+			rule=2
+			rep=sep
+			sep=i
+		}
 	}
-	return pow(10,x.slice(1))
+	console.log(expr,rep,sep,rule)
+	if(rule==2&&x.slice(sep+1,length)==0){
+		return x.slice(0,sep)
+	}
+	if(rule==1){
+		return x.slice(0,expr)+pow(10,x.slice(expr+1,length))
+	}else if(rule==2){
+		return x.slice(0,expr)+x.slice(expr,rep+1)+x.slice(expr,sep+1)+(x.slice(sep+1,length)-1)
+	}
 }
 </script>
 </head>
 <body>
+Max FGH level=w
 <input id="box" value="E3">
 <button onclick="box.value=step(box.value)">Step</button>
 </body>
