@@ -31,9 +31,12 @@ function step(x){ //Step an ExE.
 	if(expr==-1){
 		return x
 	}
-	if(rule==2&&x.slice(sep+1,length)<2){
-		return x.slice(0,sep)
+	if(rule==2&&x.slice(sep+1,length)==0){
+		return x.slice(0,expr)+x.slice(rep+1,sep)
 	}
+	/*if(rule==2&&x.slice(sep+1,length)==1){
+		return x.slice(0,sep)
+	}*/
 	if(rule==1){
 		var ret=x.slice(expr+1,length)
 		if(op==0){
