@@ -4,22 +4,23 @@ function pow(x,y){
 	return Math.pow(x,y)
 }
 function step(x){ //Step an ExE.
-	if(x.search("E")==-1){
-		return x
-	}
-	var expr=0
+	var expr=-1
 	var rep=0
 	var sep=0
 	var rule=1
+	var op=0
+	const opcodes="EABCFGH"
 	var length=x.length
 	//expr is the start of the current ExE expression
 	//rep is the end of the replicated part of the expression for rule 2
 	//sep is the location of the separator used in rule 2
+	//op is the base operation (0 is 10^x, 1 is x+1, 2 is x*10, 3 is x^10)
 	//rule is the rule (1 is E, 2 is #)
 	for(var i=0;i<length;i++){
-		if(x[i]=="E"){
+		if(opcodes.search(x[i])>-1){
 			expr=rep=sep=i
 			rule=1
+			op=opcodes.search(x[i])
 		}else if(x[i]=="#"){
 			rule=2
 			rep=sep
@@ -27,11 +28,24 @@ function step(x){ //Step an ExE.
 		}
 	}
 	console.log(expr,rep,sep,rule)
-	if(rule==2&&x.slice(sep+1,length)==0){
+	if(expr==-1){
+		return x
+	}
+	if(rule==2&&x.slice(sep+1,length)<2){
 		return x.slice(0,sep)
 	}
 	if(rule==1){
-		return x.slice(0,expr)+pow(10,x.slice(expr+1,length))
+		var ret=x.slice(expr+1,length)
+		if(op==0){
+			ret=pow(10,ret)
+		}else if(op==1){
+			ret=+ret+1
+		}else if(op==2){
+			ret*=10
+		}else if(op==3){
+			ret=pow(ret,10)
+		}
+		return x.slice(0,expr)+ret
 	}else if(rule==2){
 		return x.slice(0,expr)+x.slice(expr,rep+1)+x.slice(expr,sep+1)+(x.slice(sep+1,length)-1)
 	}
