@@ -1,0 +1,22 @@
+<html><head><title>ExEvaluator</title>
+<script>
+function pow(x,y){
+	return Math.pow(x,y)
+}
+function step(x){ //Step an ExE.
+	if(x[0]!="E"){
+		return x
+	}
+	var info={}
+	for(var i=0;i<x.length;i++){
+		//TODO add stuff to deal with separators here
+	}
+	return pow(10,x.slice(1))
+}
+</script>
+</head>
+<body>
+<input id="box" value="E3">
+<button onclick="box.value=step(box.value)">Step</button>
+</body>
+</html>
