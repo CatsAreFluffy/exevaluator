@@ -9,7 +9,7 @@ function step(x){ //Step an ExE.
 	var sep=0
 	var rule=1
 	var op=0
-	const opcodes="EABCFGH"
+	const opcodes="EABCDFGH"
 	var length=x.length
 	//expr is the start of the current ExE expression
 	//rep is the end of the replicated part of the expression for rule 2
@@ -17,7 +17,7 @@ function step(x){ //Step an ExE.
 	//op is the base operation (0 is 10^x, 1 is x+1, 2 is x*10, 3 is x^10)
 	//rule is the rule (1 is E, 2 is #)
 	for(var i=0;i<length;i++){
-		if(opcodes.search(x[i])>-1){
+		if(opcodes.search("\\"+x[i])>-1){
 			expr=rep=sep=i
 			rule=1
 			op=opcodes.search(x[i])
@@ -40,10 +40,17 @@ function step(x){ //Step an ExE.
 			ret=pow(10,ret)
 		}else if(op==1){
 			ret=+ret+1
-		}else if(op==2){
+		}else if(op==2||op==4){
 			ret*=10
 		}else if(op==3){
 			ret=pow(ret,10)
+		}else if(op>=5&&op<=7){
+			const chars="EFGH"
+			if(ret<1){
+				ret=chars[op-5]+ret
+			}else{
+				ret=chars[op-5]+chars[op-4]+(ret-1)
+			}
 		}
 		return x.slice(0,expr)+ret
 	}else if(rule==2){
@@ -54,7 +61,7 @@ function step(x){ //Step an ExE.
 </head>
 <body>
 Max FGH level=w
-<input id="box" value="E3">
+<input id="box" value="FA1">
 <button onclick="box.value=step(box.value)">Step</button>
 </body>
 </html>
