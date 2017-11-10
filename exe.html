@@ -37,7 +37,7 @@ function step(x){ //Step an ExE.
 	if(rule==2&&x.slice(sep+1,length)<1){
 		console.log(x.slice(0,rep+1))
 		var bound=x.slice(rep+1,sep)
-		if(op>=5){
+		if(op>=5||op==0){
 			bound=Math.log10(bound)
 		}else if(op==2||op==4){
 			bound=bound/10
