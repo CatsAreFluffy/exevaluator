@@ -34,6 +34,10 @@ function step(x){ //Step an ExE.
 	if(rule==2&&x.slice(sep+1,length)==0){
 		return x.slice(0,expr)+x.slice(rep+1,sep)
 	}
+	if(rule==2&&x.slice(sep+1,length)<1){
+		console.log(x.slice(0,rep+1))
+		return x.slice(0,rep+1)+(x.slice(sep+1,length)*x.slice(rep+1,sep)+(1-x.slice(sep+1,length))*Math.log10(x.slice(rep+1,sep)))
+	}
 	/*if(rule==2&&x.slice(sep+1,length)==1){
 		return x.slice(0,sep)
 	}*/
